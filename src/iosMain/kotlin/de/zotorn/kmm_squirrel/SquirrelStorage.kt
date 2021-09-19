@@ -1,45 +1,81 @@
 package de.zotorn.kmm_squirrel
 
-actual class SquirrelStorage {
-    actual fun getString(key: String, default: String?): String? {
-        TODO("Not yet implemented")
+import platform.Foundation.NSUserDefaults
+
+actual class SquirrelStorage(private val name: String) : KeyValueStorage {
+
+    private fun get(key: String, default: String?) : String? {
+        NSUserDefaults.standardUserDefaults.dictionaryForKey(name)?.let {
+            if (it.keys.contains(key)) {
+                return it[key] as String
+            }
+        }
+        return default
     }
 
-    actual fun putString(key: String, value: String) {
+    private fun put(key: String, value: String) {
+        val targetMap: MutableMap<String, Any?> = NSUserDefaults.standardUserDefaults.dictionaryForKey(name)?.toMutableMap() as? MutableMap<String, Any?>
+            ?: mutableMapOf()
+        targetMap.put(key, value)
+        NSUserDefaults.standardUserDefaults.setObject(targetMap, name)
     }
 
-    actual fun getInt(key: String, default: Int): Int {
-        TODO("Not yet implemented")
+    actual override fun getString(key: String, default: String?): String? {
+        return get(key, default) ?: default
     }
 
-    actual fun putInt(key: String, value: Int) {
+    actual override fun putString(key: String, value: String) {
+        put(key, value)
     }
 
-    actual fun getLong(key: String, default: Long): Long {
-        TODO("Not yet implemented")
+    actual override fun getInt(key: String, default: Int): Int {
+        return getString(key, default.toString())?.toIntOrNull() ?: default
     }
 
-    actual fun putLong(key: String, value: Long) {
+    actual override fun putInt(key: String, value: Int) {
+        put(key, value.toString())
     }
 
-    actual fun getFloat(key: String, default: Float): Float {
-        TODO("Not yet implemented")
+    actual override fun getLong(key: String, default: Long): Long {
+        return getString(key, default.toString())?.toLongOrNull() ?: default
     }
 
-    actual fun putFloat(key: String, value: Float) {
+    actual override fun putLong(key: String, value: Long) {
+        put(key, value.toString())
     }
 
-    actual fun getBoolean(key: String, default: Boolean): Boolean {
-        TODO("Not yet implemented")
+    actual override fun getFloat(key: String, default: Float): Float {
+        return getString(key, default.toString())?.toFloatOrNull() ?: default
     }
 
-    actual fun putBoolean(key: String, value: Boolean) {
+    actual override fun putFloat(key: String, value: Float) {
+        put(key, value.toString())
     }
 
-    actual fun remove(key: String) {
+    actual override fun getBoolean(key: String, default: Boolean): Boolean {
+        return getString(key, default.toString())?.toBooleanStrictOrNull() ?: default
     }
 
-    actual fun removeAll() {
+    actual override fun putBoolean(key: String, value: Boolean) {
+        putString(key, value.toString())
+    }
+
+    actual override fun remove(key: String) {
+        NSUserDefaults.standardUserDefaults.dictionaryForKey(name)?.let {
+            if (it.keys.contains(key)) {
+                val editMap = it.toMutableMap()
+                editMap.remove(key)
+                NSUserDefaults.standardUserDefaults.setObject(editMap, name)
+            }
+        }
+    }
+
+    actual override fun removeAll() {
+        NSUserDefaults.standardUserDefaults.dictionaryForKey(name)?.let {
+            val editMap = it.toMutableMap()
+            editMap.clear()
+            NSUserDefaults.standardUserDefaults.setObject(editMap, name)
+        }
     }
 
 }

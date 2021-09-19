@@ -1,45 +1,59 @@
 package de.zotorn.kmm_squirrel
 
-actual class SquirrelStorage {
-    actual fun getString(key: String, default: String?): String? {
-        TODO("Not yet implemented")
+import android.content.Context
+
+actual class SquirrelStorage(context: Context, name: String) : KeyValueStorage {
+
+
+    private val sharedPreferences =
+        context.getSharedPreferences(name, Context.MODE_PRIVATE)
+
+    actual override fun getString(key: String, default: String?): String? {
+        return sharedPreferences.getString(key, default)
     }
 
-    actual fun putString(key: String, value: String) {
+    actual override fun putString(key: String, value: String) {
+        sharedPreferences.edit().putString(key, value).apply()
     }
 
-    actual fun getInt(key: String, default: Int): Int {
-        TODO("Not yet implemented")
+    actual override fun getInt(key: String, default: Int): Int {
+        return sharedPreferences.getInt(key, default)
     }
 
-    actual fun putInt(key: String, value: Int) {
+    actual override fun putInt(key: String, value: Int) {
+        sharedPreferences.edit().putInt(key, value).apply()
     }
 
-    actual fun getLong(key: String, default: Long): Long {
-        TODO("Not yet implemented")
+    actual override fun getLong(key: String, default: Long): Long {
+        return sharedPreferences.getLong(key, default)
     }
 
-    actual fun putLong(key: String, value: Long) {
+    actual override fun putLong(key: String, value: Long) {
+        sharedPreferences.edit().putLong(key, value).apply()
     }
 
-    actual fun getFloat(key: String, default: Float): Float {
-        TODO("Not yet implemented")
+    actual override fun getFloat(key: String, default: Float): Float {
+        return sharedPreferences.getFloat(key, default)
     }
 
-    actual fun putFloat(key: String, value: Float) {
+    actual override fun putFloat(key: String, value: Float) {
+        sharedPreferences.edit().putFloat(key, value).apply()
     }
 
-    actual fun getBoolean(key: String, default: Boolean): Boolean {
-        TODO("Not yet implemented")
+    actual override fun getBoolean(key: String, default: Boolean): Boolean {
+        return sharedPreferences.getBoolean(key, default)
     }
 
-    actual fun putBoolean(key: String, value: Boolean) {
+    actual override fun putBoolean(key: String, value: Boolean) {
+        sharedPreferences.edit().putBoolean(key, value).apply()
     }
 
-    actual fun remove(key: String) {
+    actual override fun remove(key: String) {
+        sharedPreferences.edit().remove(key).apply()
     }
 
-    actual fun removeAll() {
+    actual override fun removeAll() {
+        sharedPreferences.edit().clear().apply()
     }
 
 }

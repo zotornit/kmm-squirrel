@@ -31,6 +31,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
 //                implementation("com.google.android.material:material:1.2.1")
+                implementation("androidx.security:security-crypto-ktx:1.1.0-alpha03")
             }
         }
         val androidTest by getting {
