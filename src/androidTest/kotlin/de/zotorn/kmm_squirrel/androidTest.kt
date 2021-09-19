@@ -1,4 +1,4 @@
-//package me.tom.library
+//package de.zotorn.kmm_squirrel
 //
 //import org.junit.Assert.assertTrue
 //import org.junit.Test
