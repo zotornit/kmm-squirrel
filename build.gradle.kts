@@ -2,6 +2,7 @@ plugins {
     kotlin("multiplatform") version "1.5.21"
     id("com.android.library")
     id("kotlin-android-extensions")
+    id("maven-publish")
 }
 
 group = "de.zotorn.kmm-squirrel"
@@ -13,7 +14,9 @@ repositories {
 }
 
 kotlin {
-    android()
+    android {
+        publishLibraryVariants("release", "debug")
+    }
     iosX64("ios") {
         binaries {
             framework {
@@ -51,4 +54,35 @@ android {
         minSdkVersion(24)
         targetSdkVersion(29)
     }
+}
+
+//publishing {
+//    repositories {
+//        maven {
+//            //...
+//        }
+//    }
+//}
+
+
+publishing {
+    repositories {
+        maven {
+            if((project.version as String).endsWith("-SNAPSHOT")) {
+                url = uri("https://nexus.registry9.de/repository/maven-test-snapshot/")
+            } else {
+//                url = uri("https://nexus.registry9.de/repository/velvax-releases/")
+            }
+            credentials {
+                username = "maven-test-snapshot"
+                password = "maven-test-snapshot"
+            }
+        }
+    }
+//    publications {
+//        register("mavenJava", MavenPublication::class) {
+//            from(components["java"])
+//            artifact(sourcesJar.get())
+//        }
+//    }
 }
