@@ -9,7 +9,6 @@ version = "1.0.0-SNAPSHOT"
 
 repositories {
     google()
-    jcenter()
     mavenCentral()
 }
 
@@ -18,7 +17,7 @@ kotlin {
     iosX64("ios") {
         binaries {
             framework {
-                baseName = "library"
+                baseName = "KMMSquirrel"
             }
         }
     }
@@ -31,12 +30,12 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.google.android.material:material:1.2.1")
+//                implementation("com.google.android.material:material:1.2.1")
             }
         }
         val androidTest by getting {
             dependencies {
-                implementation("junit:junit:4.13")
+                implementation("junit:junit:4.13.2")
             }
         }
         val iosMain by getting
