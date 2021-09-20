@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "de.zotorn.kmm-squirrel"
-version = "1.0.0-SNAPSHOT"
+version = "1.0.7-SNAPSHOT"
 
 repositories {
     google()
@@ -34,7 +34,6 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-//                implementation("com.google.android.material:material:1.2.1")
                 implementation("androidx.security:security-crypto-ktx:1.1.0-alpha03") // requires Android SDK 23
             }
         }
@@ -57,33 +56,9 @@ android {
     }
 }
 
-//publishing {
-//    repositories {
-//        maven {
-//            //...
-//        }
-//    }
-//}
-
-
 publishing {
     repositories {
         maven {
-            if((project.version as String).endsWith("-SNAPSHOT")) {
-                url = uri("https://nexus.registry9.de/repository/maven-test-snapshot/")
-            } else {
-//                url = uri("https://nexus.registry9.de/repository/velvax-releases/")
-            }
-            credentials {
-                username = "maven-test-snapshot"
-                password = "maven-test-snapshot"
-            }
         }
     }
-//    publications {
-//        register("mavenJava", MavenPublication::class) {
-//            from(components["java"])
-//            artifact(sourcesJar.get())
-//        }
-//    }
 }
