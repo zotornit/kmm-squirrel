@@ -16,6 +16,7 @@ repositories {
 kotlin {
     android {
         publishLibraryVariants("release", "debug")
+        publishLibraryVariantsGroupedByFlavor = true
     }
     iosX64("ios") {
         binaries {
@@ -34,7 +35,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
 //                implementation("com.google.android.material:material:1.2.1")
-                implementation("androidx.security:security-crypto-ktx:1.1.0-alpha03")
+                implementation("androidx.security:security-crypto-ktx:1.1.0-alpha03") // requires Android SDK 23
             }
         }
         val androidTest by getting {
