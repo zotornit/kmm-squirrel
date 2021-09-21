@@ -28,8 +28,7 @@ pipeline {
                         sed -i ".bak" "/^version/d" build.gradle.kts
                         echo "\nversion = \\"$TAG_NAME\\"" >> build.gradle.kts
                     '''
-                    sh './gradlew clean publish -Dorg.gradle.internal.publish.checksums.insecure=true -PpublishUser=$PUBLISH_ACCOUNT_USR -PpublishPassword=$PUBLISH_ACCOUNT_PSW -PsigningKeyId=$SIGNING_KEY_ID -PsigningPassphrase=$SIGNING_KEY_PASSPHRASE -PpublishUrl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
-                    sh './gradlew closeAndReleaseSonatypeStagingRepository'
+                    sh './gradlew clean publishAllPublicationsToSonatypeRepository closeAndReleaseSonatypeStagingRepository -Dorg.gradle.internal.publish.checksums.insecure=true -PpublishUser=$PUBLISH_ACCOUNT_USR -PpublishPassword=$PUBLISH_ACCOUNT_PSW -PsigningKeyId=$SIGNING_KEY_ID -PsigningPassphrase=$SIGNING_KEY_PASSPHRASE -PpublishUrl=https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/'
                 }
             }
         }
